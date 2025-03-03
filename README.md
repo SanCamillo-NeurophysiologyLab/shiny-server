@@ -1,2 +1,2 @@
 # shiny-server
-testShiny App developed by IRCCS San Camillo 
+test2Shiny App developed by IRCCS San Camillo 

@@ -13,11 +13,16 @@ rm(list=ls())
 load("R_data/CRI_MOCA_data_mods.RData")
 source("R_functions/CGcut.off.multi.R")
 
+source("/srv/shiny-server/template/template_ui.R")
+
 # Define UI for application that draws a histogram
-ui <- fluidPage(
+ui <- tagList(
+  header("MOCA normative data and cut-offs (CRIq)"),
+  div(id = "content",
+    fluidPage(
    
    # Application title
-   titlePanel("MOCA normative data and cut-offs (CRIq)"),
+  #  titlePanel("MOCA normative data and cut-offs (CRIq)"),
    
    # Sidebar with a slider input for number of bins
    sidebarLayout(
@@ -42,6 +47,9 @@ ui <- fluidPage(
          
       )
    )
+    )
+  ),
+  footer()
 )
 
 # Define server logic required to draw a histogram

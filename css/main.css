@@ -2,6 +2,12 @@
     --color-primary: #2f3f76;
   }
 
+@media (min-width: 1200px) {
+    .container {
+        width: 100%;
+    }
+}
+
 html, body {
     height: 100%;
     margin: 0;
@@ -41,7 +47,7 @@ html, body {
     flex-grow: 1;
     text-align: center;
     margin: 0;
-    font-size: 36pt;
+    font-size: 28pt;
     font-weight: bold;
   }
 
@@ -119,5 +125,10 @@ body {
     border-radius: 5px;
 }
 .btn:hover {
-    background: #0056b3;
+    color: white;
+    background: #2e6da4;
+}
+
+.btn:focus {
+    color: white;
 }

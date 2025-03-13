@@ -17,12 +17,12 @@ source("/srv/shiny-server/template/template_ui.R")
 
 # Define UI for application that draws a histogram
 ui <- tagList(
-  header("MOCA normative data and cut-offs (CRIq)"),
+  header(),
   div(id = "content",
     fluidPage(
    
    # Application title
-  #  titlePanel("MOCA normative data and cut-offs (CRIq)"),
+   titlePanel("MOCA normative data and cut-offs (CRIq)"),
    
    # Sidebar with a slider input for number of bins
    sidebarLayout(

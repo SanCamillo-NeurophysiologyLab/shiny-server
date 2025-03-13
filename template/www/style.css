@@ -1,3 +1,7 @@
+:root {
+  --color-primary: #2f3f76;
+}
+
 html, body {
     height: 100%;
     margin: 0;
@@ -10,7 +14,7 @@ html, body {
   }
   
   .footer {
-    background-color: #2f3f76;
+    background-color: var(--color-primary);
     padding: 30px;
     color: white;
     text-align: center;
@@ -22,7 +26,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #2f3f76;
+    background-color: var(--color-primary);
     padding: 10px;
     color: #ffffff;
     position: relative;
@@ -37,4 +41,6 @@ html, body {
     flex-grow: 1;
     text-align: center;
     margin: 0;
+    font-size: 28pt;
+    font-weight: bold;
   }

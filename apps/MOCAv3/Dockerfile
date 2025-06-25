@@ -11,15 +11,18 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     libxt-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# system library dependency for the euler app
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    libmpfr-dev \
-    && rm -rf /var/lib/apt/lists/*
+# system library dependency for the app
+### For example:
+### RUN apt-get update && apt-get install --no-install-recommends -y \
+###    libmpfr-dev \
+###    && rm -rf /var/lib/apt/lists/*
 
 # basic shiny functionality
 RUN R -q -e "options(warn=2); install.packages(c('shiny'))"
 
-# install dependencies of the app
+# install R packages of the app
+### For example
+### RUN R -q -e "options(warn=2); install.packages('png')"
 
 # install R code
 COPY mocav3 /app

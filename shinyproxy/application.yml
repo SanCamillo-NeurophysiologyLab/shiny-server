@@ -1,8 +1,14 @@
+###########################
+# SETTINGS FOR SHINYPROXY #
+###########################
 proxy:
-  title: Open Analytics Shiny Proxy
-  logo-url: https://www.openanalytics.eu/shinyproxy/logo.png
+  ##########################
+  # DO NOT CHANGE ANYTHING #
+  ##########################
+  title: San Camillo Apps
+  logo-url: file:///opt/shinyproxy/templates/assets/img/logo_sc/sancamillo_logo_white.png
   port: 8080
-  template-path: ./templates/2col
+  template-path: ./templates/
   authentication: none
   admin-groups: admins
   # users:
@@ -13,6 +19,10 @@ proxy:
   #   password: password
   docker:
       internal-networking: true
+
+  ###############################
+  # CHANGE HERE TO ADD NEW APPS #
+  ###############################
   specs:
   - id: 01_hello
     display-name: Hello Application
@@ -20,12 +30,12 @@ proxy:
     container-cmd: ["R", "-e", "shinyproxy::run_01_hello()"]
     container-image: openanalytics/shinyproxy-demo
     container-network: shinyproxy-nw
-    logo-url: /assets/img/01_hello.png
+    logo-url: /assets/img/apps/01_hello.png
   - id: 06_tabsets
     container-cmd: ["R", "-e", "shinyproxy::run_06_tabsets()"]
     container-image: openanalytics/shinyproxy-demo
     container-network: shinyproxy-nw
-    logo-url: /assets/img/06_tabsets.png
+    logo-url: /assets/img/apps/06_tabsets.png
   - id: MOCAv3
     docker-cmd: ["R", "-e", "shiny::runApp('/root/mocav3')"]
     container-image: shinyapp-mocav3

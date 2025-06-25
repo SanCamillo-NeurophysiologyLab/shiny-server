@@ -1,0 +1,18 @@
+services:
+  shinyproxy:
+    image: openanalytics/shinyproxy:3.1.1
+    restart: unless-stopped
+    volumes:
+      - ./application.yml:/opt/shinyproxy/application.yml:ro
+      - ./templates/:/opt/shinyproxy/templates/:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    group_add:
+      - "984"
+    ports:
+      - 8080:8080
+    networks:
+      - shinyproxy-nw
+networks:
+  shinyproxy-nw:
+    name: shinyproxy-nw
+    external: true

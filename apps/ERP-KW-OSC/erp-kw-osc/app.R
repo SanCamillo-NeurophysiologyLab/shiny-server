@@ -9,7 +9,7 @@
 library(png)
 library(shiny)
 
-source("/srv/shiny-server/template/template_ui.R")
+# source("../../template/template_ui.R")
 
 timepoints = c(-100, -96, -92, -88, -84, -80, -76, -72, -68, -64, -60, -56, 
   -52, -48, -44, -40, -36, -32, -28, -24, -20, -16, -12, -8, -4, 
@@ -36,7 +36,7 @@ timepoints = c(-100, -96, -92, -88, -84, -80, -76, -72, -68, -64, -60, -56,
 
 # Define UI for application that draws the ERP layout
 ui <- tagList(
-  header(),
+  # header(),
   div(id = "content",fluidPage(
    
    # Application title
@@ -62,7 +62,7 @@ ui <- tagList(
    )
 )
   ),
-footer()
+# footer()
 )
 
 # Define server logic required to draw the ERP layout

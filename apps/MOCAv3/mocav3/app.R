@@ -13,12 +13,10 @@ rm(list=ls())
 load("R_data/CRI_MOCA_data_mods.RData")
 source("R_functions/CGcut.off.multi.R")
 
-source("/srv/shiny-server/template/template_ui.R")
+# source("/srv/shiny-server/template/template_ui.R")
 
 # Define UI for application that draws a histogram
-ui <- tagList(
-  header(),
-  div(id = "content",
+ui <- 
     fluidPage(
    
    # Application title
@@ -48,9 +46,6 @@ ui <- tagList(
       )
    )
     )
-  ),
-  footer()
-)
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {

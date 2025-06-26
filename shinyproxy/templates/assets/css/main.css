@@ -129,6 +129,7 @@ body {
 }
 .card .card-logo {
 	min-height: 150px;
+    margin-bottom: 10px;
 }
 
 .card .card-author {

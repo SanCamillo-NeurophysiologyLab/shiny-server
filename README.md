@@ -1,107 +1,146 @@
 # San Camillo Shiny Apps
 
-This repository stores the shiny apps developed at [IRCCS San Camillo Hospital](https://hsancamillo.it).
+This repository stores the server and the shiny apps developed at [IRCCS San Camillo Hospital](https://hsancamillo.it). 
 
-## Structure of the repository
+The server is [ShinyProxy](https://www.shinyproxy.io/) which allows concurrent users to use the same app.
 
-The shiny server is using `R 4.4.3`.
+Moreover, ShinyProxy works with completely isolated docker containers, one for each app (indeed, one for each session...). Therefore, each app is independent and can use a different version of R and different packages.
 
-All the shiny apps are stored inside the `apps` folder and can be organized in subfolders.
+## General structure of the repository
 
-The file `index.html` is the home page and uses styles in `css` folder.
+The server used is [ShinyProxy](https://www.shinyproxy.io/), which is deployed in its dockerized version (`docker-compose.yml`).
 
-The template for the apps is an R file inside `template` folder, which define two functions to add header and footer.
+Current ShinyProxy version: `3.1.1`
 
-## How to contribute
+All files used directly by ShinyProxy server (except for the docker compose starting file) are stored in the folder `shinyproxy`.
+
+All the server's settings are defined in `application.yml`.
+
+A full list of the available configurations is defined in the [ShinyProxy documentation](https://www.shinyproxy.io/documentation/configuration/)
+
+Folders `assets` and `templates` contains useful files for rendering the website.
+
+All the applications are stored in the folder `apps`. Each application should be stored in a separate folder and is implemented in completely independent way. Each application must be dockerized.
+
+## About ShinyProxy
+
+ShinyProxy is a useful opensource tool to easily serve applications as shinyapps, jupyter notebooks and others.
+
+The easiest way to deploy a new app with ShinyProxy is to create a docker image hosting the full and working app.
+
+Each image is registered in the ShinyProxy configuration file (`application.yml`). Once someone open the app ShinyProxy will spawn a new docker instance of the app. In this way each user session is completely independent from the others and no interaction issues will arise.
+
+The drawback of this logic is that if an app is not optimized and is resource demanding, if multiple users will access the app simultaneously, mutiple docker instances of the resource demanding app will be created, affecting the resources of the entire server.
+
+## Deploying new apps
+
+### How to contribute
 
 The branch `main` of the repository is protected because it is synced with the website, which is automatically updated every time the branch main receive a new commit.
 
 In order to contribute work on a separate branch and send a pull request to merge the new app in `main`.
 
-The new apps should include the template of the website (see next paragraph).
+### Implementing a new app
 
-## Add template to shiny apps
+As already mention each app is a standalone docker image.
 
-The template of the website is in `template/template_ui.R`.
-Apps can inherit the template by just adding these lines:
-```r
-# .... Here your code with libraries, source, etc
+New apps can be implemented using the already existing ones as template.
 
-# Add source to the template
-source("/srv/shiny-server/template/template_ui.R")
+However, these are the steps required to implement a new app:
+1. Create a folder inside `apps` with the name of the new app (e.g. `MyNewShinyApp`)
+2. Inside the folder `apps/MyNewShinyApp` create a new folder with a short name of the app (e.g. `newapp`) where you can store all the developed code (for example `app.R`, `R_data`, `R_functions`, etc)
+3. Inside the folder `apps/MyNewShinyApp` create a `Dockerfile` with the standalone working app (see below for a template)
+4. Test the app locally (you need docker on your computer):
+    1. `cd apps/MyNewShinyApp`
+    2. `docker build -t shinyapp-newapp .`
+    3. `docker run -it -p 3838:3838 shinyapp-newapp`
+    4. Open a browser, go to `http://localhost:3838` and you should see the app.
+5. Add a screenshot (which will be the app logo) in `shinyproxy/templates/assets/img/apps` 
+5. Add the app to the file `application.yml` at the end of the section `specs`:
+    ``` 
+    id: MyNewShinyApp
+    display-name: New Shiny Application
+    description: Here a beatiful description of the new shiny app
+    container-cmd: ["R", "-e", "shiny::runApp('/root/mynewshinyapp')"]
+    container-image: openanalytics/shinyproxy-newapp
+    container-network: shinyproxy-nw
+    logo-url: /assets/img/apps/name_of_the_screenshot.png
+    ```
 
-# Then add header and footer and wrap the app in a div
-# For example if the original code is
-# ui <- fluidPage(
-#   your beautiful app
-# )
-ui <- tagList(
-  header(),
-  div(id = "content",
-        fluidPage(
-            # your beautiful app
-        )
-  ),
-  footer()
-)
+### Dockerfile
+
+Each app must be dockerized. Therefore one Dockerfile must exist for each app.
+
+For a new shiny app you can just modify the following template
+
+```docker
+FROM openanalytics/r-ver:4.3.3
+
+RUN /rocker_scripts/setup_R.sh https://packagemanager.posit.co/cran/__linux__/jammy/latest
+RUN echo "\noptions(shiny.port=3838, shiny.host='0.0.0.0')" >> /usr/local/lib/R/etc/Rprofile.site
+
+# system libraries of general use
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    pandoc \
+    pandoc-citeproc \
+    libcairo2-dev \
+    libxt-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# system library dependency for the app
+### For example:
+### RUN apt-get update && apt-get install --no-install-recommends -y \
+###    libmpfr-dev \
+###    && rm -rf /var/lib/apt/lists/*
+
+# basic shiny functionality
+RUN R -q -e "options(warn=2); install.packages(c('shiny'))"
+
+# install R packages of the app
+### For example
+### RUN R -q -e "options(warn=2); install.packages('png')"
+
+# install R code
+### CHANGE newapp WITH THE FOLDER WITH THE CODE
+COPY newapp /app
+WORKDIR /app
+
+EXPOSE 3838
+
+# create user
+RUN groupadd -g 1000 shiny && useradd -c 'shiny' -u 1000 -g 1000 -m -d /home/shiny -s /sbin/nologin shiny
+USER shiny
+
+CMD ["R", "-q", "-e", "shiny::runApp('/app')"]
 ```
 
-Now the app will include the header and footer of the website!
+* Change the first line if you need a different R version
+* Follow the comments if you need to install system libraries needed by the app
+* Follow the comments if you need to install R packages needed by the app
+* In the line starting with `COPY` change `newapp` with the name of the code folder (shortname of the app)
+
 
 ## How to run it locally
 
-You can run the server locally to test new apps (or for any other reason).
-
-The easiest way to deploy the shiny server is by using docker.
-
-You should have installed in your system both `docker` and `docker compose`.
-
-If you are using linux you can use [docker engine](https://docs.docker.com/engine/install/), otherwise the easiest way is by using [docker desktop](https://docs.docker.com/desktop/).
-
-Create a folder for the project, e.g. `shiny`, and inside the folder create a file `docker-compose.yml` with the shiny service:
-```yaml
-services:
-  shiny:
-    # We use a mariadb image which supports both amd64 & arm64 architecture
-    image: rocker/shiny
-    # If you really want to use MySQL, uncomment the following line
-    #image: mysql:8.0.27
-    restart: unless-stopped
-    volumes:
-      - ./log:/var/log
-      - ./shiny-server:/srv/shiny-server 
-    ports:
-      - "3838:3838"
-```
-Create a folder named `log` inside the project folder. All the logs of the server will be saved here.
-
-Now clone this repository inside the project folder
+First you need to create the images of all the apps:
 ```bash
-cd shiny # or your project folder
-git clone https://github.com/SanCamillo-NeurophysiologyLab/shiny-server.git
+# From the folder of each app
+# Change the name of the image tag with the one corresponding in the application file
+docker build -t shinyapp-newapp .
 ```
 
-Now the structure of your project should be
-```
-shiny
-|- docker-compose.yml
-|- log
-|- shiny-server
-    |- all the files of this repository
-```
+Then you can simply launch the docker compose file with:
 
-To run the server just go to the project folder and give the up command
 ```bash
-docker compose up
-# docker compose up -d to run it in background
+# From the main folder of the project
+docker compose up -d
 ```
 
-The server is accessible at http://localhost:3838
+You, from a browser, you will see the ShinyProxy server with all the apps at `http://localhost:8080`
 
-To interrupt the server:
+To stop the server
+
 ```bash
-# ctrl-c if the server is running in the same shell
-docker compose down
+# From the main folder of the project
+docker compose down -d
 ```
-
-#

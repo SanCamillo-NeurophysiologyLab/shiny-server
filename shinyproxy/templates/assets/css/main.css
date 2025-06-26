@@ -19,6 +19,29 @@ html, body {
     flex: 1; /* Makes the main content expand */
 }
 
+.navbar {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.navbar-header {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand-logo {
+    height: 80px !important;
+    margin-left: 10px !important; 
+}
+
+.navbar-brand-title {
+    font-size: 24pt;
+    font-weight: bold;
+    color: #ffffff !important;
+    margin-left: 15px !important; 
+
+}
+
 .footer {
     background-color: var(--color-primary);
     padding: 30px;
@@ -100,11 +123,21 @@ body {
     margin-top: 0;
     margin-bottom: 10px;
 }
+
+.img-responsive { 
+	max-height: 150px;
+}
+.card .card-logo {
+	min-height: 150px;
+    margin-bottom: 10px;
+}
+
 .card .card-author {
     font-size: 14px;
     margin-bottom: 10px;
     color: #555;
 }
+
 
 .card .card-description {
     font-size: 14px;

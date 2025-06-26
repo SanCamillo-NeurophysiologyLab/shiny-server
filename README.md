@@ -122,11 +122,17 @@ CMD ["R", "-q", "-e", "shiny::runApp('/app')"]
 
 ## How to run it locally
 
-First you need to create the images of all the apps:
+First you have to create a docker network
+
 ```bash
-# From the folder of each app
-# Change the name of the image tag with the one corresponding in the application file
-docker build -t shinyapp-newapp .
+docker network create shinyproxy-nw
+```
+
+Then you need to create the images of all the apps and you need to change the Docker GUID in `docker-compose.yml`. To do so there is a script that does everything for you.
+
+```bash
+chmod +x first_run_setup.sh
+./first_run_setup.sh
 ```
 
 Then you can simply launch the docker compose file with:

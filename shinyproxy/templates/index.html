@@ -46,20 +46,28 @@
         <div th:replace="~{fragments/navbar :: navbar}"></div>
 
         <div class="description">
-            <div class="description-subtitle">Welcome to the home page of the Shiny apps developed at IRCCS San Camillo Hospital.</div>
+            <div class="description-subtitle">IRCCS San Camillo Hospital - Interactive Applications for Research and Clinical Practice</div>
             <div class="description-text">
-                Our applications focus on statistical analysis for neuroscience and neuropsychology, providing interactive tools to support research and data visualization.
-                <br/>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum venenatis sagittis dapibus. Nunc rutrum scelerisque enim a maximus. In aliquet lorem sit amet justo fermentum, at malesuada nulla elementum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas venenatis mi sit amet velit maximus, nec rutrum velit vehicula. Cras ullamcorper dui sed justo hendrerit vulputate. Quisque interdum neque nunc, vehicula tempor magna varius vitae. Pellentesque lacus nulla, eleifend at rhoncus sit amet, gravida vel est. Sed cursus accumsan turpis sed iaculis. In tincidunt pulvinar viverra. Aliquam rhoncus leo ut hendrerit iaculis. Praesent tristique massa at turpis scelerisque consectetur.
-                <br/>
-                Sed sed libero sapien. In hendrerit ac ex sed ultricies. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam pretium lectus quis ante porta, rhoncus euismod arcu posuere. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie nec nibh non hendrerit. Cras tempus mollis tempor. Duis congue ligula arcu, id maximus sem varius at. Pellentesque at volutpat diam. Curabitur eu tempus magna, vitae ultricies nunc. Sed pharetra et ipsum ac maximus. Fusce purus velit, ornare vel lorem nec, egestas maximus ipsum. In condimentum, justo id lobortis dignissim, lorem nisi varius libero, quis sodales mi lorem a metus. Etiam at commodo mauris. Duis ut tortor sit amet arcu aliquam feugiat. Vestibulum consectetur tempus ultrices.
-                <br/>
-                Quisque blandit posuere felis at aliquet. Mauris et feugiat quam. Integer fermentum arcu quis nunc tempor sodales. Pellentesque eget sapien et arcu mollis dictum. Integer eget fringilla ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus at quam ac orci gravida aliquet sit amet ut mauris.
+                Welcome to the IRCCS San Camillo Hospital App Collection. <br><br>
+                On this page, you will find a curated selection of applications developed at IRCCS San Camillo Hospital. These tools have been created to serve two main purposes:
+                <br><br>
+                <a href="#apps-clinical"><strong>Clinical Support</strong></a><br>
+                Some apps function as practical tools to assist clinicians in their daily work—such as classifying patient performance against normative datasets or streamlining specific clinical assessments.
+                <br><br>
+                <a href="#apps-scientific"><strong>Scientific Communication</strong></a><br>
+                Other apps are designed to provide interactive visualizations of results published in scientific articles, enhancing the clarity and accessibility of complex data. This approach aligns with the principles of Open Science, promoting transparency, reproducibility, and wider dissemination of scientific knowledge. By making research outputs more interactive and publicly accessible, we aim to support a more inclusive and collaborative scientific ecosystem.
+                <br><br>
+                Each application includes detailed instructions and information about its intended use. We encourage you to explore them individually to better understand their features and potential applications.
+                <br>
+                If you have any questions or need further information, please do not hesitate to contact the respective author listed for each app.
+                <br><br>
+                All the source code for this website and the associated applications is openly available on <a href="https://github.com/SanCamillo-NeurophysiologyLab/shiny-server">GitHub</a>. For general inquiries or technical information, please contact alessandro.tonin@hsancamillo.it.
                 </div>
         </div>
-        <div class="title-apps">Shiny Apps</div>
-        <div class="container" id="applist">
-                <div th:each="app: ${apps}">
+        <th:block th:each="group: ${templateGroups}">
+            <div class="title-apps" th:text="${group.properties.get('display-name')}"></div>
+            <div class="container" th:id="'apps-' + ${group.id}">
+                <div th:each="app: ${groupedApps.get(group.id)}">
                     <div class="card">
                         <div class="card-title" th:text="${app.displayName == null} ? ${app.id} : ${app.displayName}"></div>
                         <div class="card-logo">
@@ -68,28 +76,22 @@
                                 th:src="${logo.src}" th:style="${logo.style}" th:width="${logo.width}">
                         </div>
                         <div class="card-description" th:if="${app.description != null}" th:text="${app.description}"></div>
-                        <div class="card-author" th:if="${@thymeleaf.getTemplateProperty(app.id, 'author')}"><strong>Author: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'author')}"></span></div>
+                        <div class="card-author" th:if="${@thymeleaf.getTemplateProperty(app.id, 'author')}">
+                            <strong>Author: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'author')}"></span> 
+                            <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" class="email-icon" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}" title="Contact Author">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    viewBox="0 0 16 16">
+                                <path d="M0 4a2 2 0 012-2h12a2 2 0 012 2v.217l-8 4.8-8-4.8V4zm0 1.383v6.634l5.803-3.482L0 5.383zM6.761 8.83l-6.52 3.913A2 2 0 002 14h12a2 2 0 001.76-1.257l-6.52-3.913L8 9.583l-1.239-.753zM16 5.383l-5.803 3.152L16 12.017V5.383z"/>
+                                </svg>
+                            </a>
+                        </div>
+                        <!-- <div class="card-contact" th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}"><strong>Contact: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'contact')}"></span></div> -->
                         <div class="card-doi" th:if="${@thymeleaf.getTemplateProperty(app.id, 'doi')}"><strong>DOI: </strong><a th:href="'https://doi.org/' + ${@thymeleaf.getTemplateProperty(app.id, 'doi')}"><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'doi')}"></span></a></div>
                         <a th:href="@{/app/}+${app.id}" class="btn">Launch App</a>
-                        <!-- <div class="col-md-6 portfolio-item">
-                            <div class="card-box">
-                                <a th:href="@{/app/}+${app.id}">
-                                    <div class="image-box">
-                                        <img class="img-responsive" th:if="${appLogos.get(app) != null}"
-                                            th:with="logo=${appLogos.get(app)}" th:height="${logo.height}"
-                                            th:src="${logo.src}" th:style="${logo.style}" th:width="${logo.width}">
-                                    </div>
-                                </a>
-                                <h3>
-                                    <a th:href="@{/app/}+${app.id}"
-                                    th:text="${app.displayName == null} ? ${app.id} : ${app.displayName}"></a>
-                                </h3>
-                                <p th:if="${app.description != null}" th:text="${app.description}"></p>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
-        </div>
+            </div>
+        </th:block>
 
         <div th:if="${myAppsMode == 'Inline'}" class="col-md-5 col-lg-4 col-xs-12 myApps-inline">
             <div class="myApps-title">

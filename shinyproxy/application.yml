@@ -13,6 +13,15 @@ proxy:
   admin-groups: admins
   docker:
       internal-networking: true
+  template-groups:
+    - id: clinical
+      properties:
+        display-name: Clinical Support
+        display-name_it: Supporto Clinico
+    - id: scientific
+      properties:
+        display-name: Scientific Communication
+        display-name_it: Lavori Scientifici
 
 # External files
 # spring:
@@ -31,6 +40,7 @@ proxy:
     container-image: openanalytics/shinyproxy-demo
     container-network: shinyproxy-nw
     logo-url: /assets/img/apps/01_hello.png
+    template-group: clinical
     template-properties:
       author: ShinyProxy
       doi: 123/456
@@ -41,8 +51,10 @@ proxy:
     container-image: shinyapp-mocav3
     container-network: shinyproxy-nw
     logo-url: /assets/img/apps/MOCAv3.png
+    template-group: clinical
     template-properties:
-      author: Sonia Montemurro et al.
+      author: Giorgio Arcara
+      contact: giorgio.arcara@hsancamillo.it
       doi: 10.3390/brainsci8070126
   - id: erp-kw-osc
     display-name: ERP oscillation
@@ -51,8 +63,10 @@ proxy:
     container-image: shinyapp-erpkwosc
     container-network: shinyproxy-nw
     logo-url: /assets/img/apps/ERP_KW_OSC_PSC.png
+    template-group: scientific
     template-properties:
       author: Sara Lago
+      contact: sara.lago@hsancamillo.it
   - id: gamm
     display-name: GAMM age education aperiodic
     description: Another beautiful description.
@@ -60,8 +74,10 @@ proxy:
     container-image: shinyapp-gamm
     container-network: shinyproxy-nw
     logo-url: /assets/img/apps/GAMM.png
+    template-group: scientific
     template-properties:
       author: Sara Lago
+      contact: sara.lago@hsancamillo.it
 
 
 logging:

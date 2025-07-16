@@ -138,6 +138,17 @@ body {
     color: #555;
 }
 
+.email-icon {
+    vertical-align: middle;
+    margin-left: 4px;
+    fill: #555;
+}
+
+/* .card .card-contact {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #555;
+} */
 
 .card .card-description {
     font-size: 14px;

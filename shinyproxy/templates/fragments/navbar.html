@@ -37,6 +37,12 @@
                             <a role="button" class="btn btn-primary btn-sm" id="myAppsModal-btn"
                             th:if="${page == 'index' && myAppsMode == 'Modal'}">My apps</a>
 
+                            <a role="button" class="btn btn-primary btn-sm lang-it" id="English-btn"
+                            th:if="${page == 'index'}" onclick="setLanguage('en')">English</a>
+
+                            <a role="button" class="btn btn-primary btn-sm lang-en" id="Italian-btn"
+                            th:if="${page == 'index'}" onclick="setLanguage('it')">Italiano</a>
+
                             <a role="button" class="btn btn-primary btn-sm" th:if="${isSupportEnabled}"
                             data-toggle="modal" data-target="#reportIssueModal">Report Issue</a>
                             <a role="button" class="btn btn-primary btn-sm" th:href="@{/admin}" th:if="${isAdmin}">Admin</a>
@@ -107,6 +113,16 @@
                         });
                     });
                 });
+
+                function setLanguage(lang) {
+                    const languages = ['en', 'fr', 'it']; // extend as needed
+                    languages.forEach(l => {
+                    document.querySelectorAll(`.lang-${l}`).forEach(el => el.classList.remove('visible'));
+                    });
+                    document.querySelectorAll(`.lang-${lang}`).forEach(el => el.classList.add('visible'));
+                    localStorage.setItem('language', lang); // remember user choice
+                }
+
             </script>
 
             <link rel="stylesheet" media="screen" th:href="@{/assets/css/main.css}"/>

@@ -46,36 +46,64 @@
         <div th:replace="~{fragments/navbar :: navbar}"></div>
 
         <div class="description">
-            <div class="description-subtitle">IRCCS San Camillo Hospital - Interactive Applications for Research and Clinical Practice</div>
+            <div class="description-subtitle">
+                <span class="lang-en">IRCCS San Camillo Hospital - Interactive Applications for Research and Clinical Practice</span>
+                <span class="lang-it">Ospedale San Camillo IRCCS - Interactive Applications for Research and Clinical Practice</span>
+            </div>
             <div class="description-text">
-                Welcome to the IRCCS San Camillo Hospital App Collection. <br><br>
-                On this page, you will find a curated selection of applications developed at IRCCS San Camillo Hospital. These tools have been created to serve two main purposes:
-                <br><br>
-                <a href="#apps-clinical"><strong>Clinical Support</strong></a><br>
-                Some apps function as practical tools to assist clinicians in their daily work—such as classifying patient performance against normative datasets or streamlining specific clinical assessments.
-                <br><br>
-                <a href="#apps-scientific"><strong>Scientific Communication</strong></a><br>
-                Other apps are designed to provide interactive visualizations of results published in scientific articles, enhancing the clarity and accessibility of complex data. This approach aligns with the principles of Open Science, promoting transparency, reproducibility, and wider dissemination of scientific knowledge. By making research outputs more interactive and publicly accessible, we aim to support a more inclusive and collaborative scientific ecosystem.
-                <br><br>
-                Each application includes detailed instructions and information about its intended use. We encourage you to explore them individually to better understand their features and potential applications.
-                <br>
-                If you have any questions or need further information, please do not hesitate to contact the respective author listed for each app.
-                <br><br>
-                All the source code for this website and the associated applications is openly available on <a href="https://github.com/SanCamillo-NeurophysiologyLab/shiny-server">GitHub</a>. For general inquiries or technical information, please contact alessandro.tonin@hsancamillo.it.
-                </div>
+                <span class="lang-en">
+                    Welcome to the IRCCS San Camillo Hospital App Collection. <br><br>
+                    On this page, you will find a curated selection of applications developed at IRCCS San Camillo Hospital. These tools have been created to serve two main purposes:
+                    <br><br>
+                    <a href="#apps-clinical"><strong>Clinical Support</strong></a><br>
+                    Some apps function as practical tools to assist clinicians in their daily work—such as classifying patient performance against normative datasets or streamlining specific clinical assessments.
+                    <br><br>
+                    <a href="#apps-scientific"><strong>Scientific Communication</strong></a><br>
+                    Other apps are designed to provide interactive visualizations of results published in scientific articles, enhancing the clarity and accessibility of complex data. This approach aligns with the principles of Open Science, promoting transparency, reproducibility, and wider dissemination of scientific knowledge. By making research outputs more interactive and publicly accessible, we aim to support a more inclusive and collaborative scientific ecosystem.
+                    <br><br>
+                    Each application includes detailed instructions and information about its intended use. We encourage you to explore them individually to better understand their features and potential applications.
+                    <br>
+                    If you have any questions or need further information, please do not hesitate to contact the respective author listed for each app.
+                    <br><br>
+                    All the source code for this website and the associated applications is openly available on <a href="https://github.com/SanCamillo-NeurophysiologyLab/shiny-server">GitHub</a>. 
+                    <br>
+                    For general inquiries or technical information, please contact alessandro.tonin@hsancamillo.it.
+                </span>
+                <span class="lang-it">
+                    Benvenuti nella raccolta di applicazioni dell'IRCCS Ospedale San Camillo. <br><br>
+                    In questa pagina troverete una selezione curata di applicazioni sviluppate presso l'IRCCS Ospedale San Camillo. Questi strumenti sono stati creati per rispondere a due principali esigenze:
+                    <br><br>
+                    <a href="#apps-clinical"><strong>Supporto Clinico</strong></a><br>
+                    Alcune applicazioni sono strumenti pratici pensati per assistere i clinici nel lavoro quotidiano, ad esempio nella classificazione delle prestazioni dei pazienti rispetto a dati normativi o nella semplificazione di specifiche valutazioni cliniche.
+                    <br><br>
+                    <a href="#apps-scientific"><strong>Comunicazione Scientifica</strong></a><br>
+                    Altre applicazioni offrono visualizzazioni interattive dei risultati pubblicati in articoli scientifici, migliorando la chiarezza e l’accessibilità dei dati complessi. Questo approccio è in linea con i principi della Scienza Aperta, promuovendo trasparenza, riproducibilità e una più ampia diffusione della conoscenza scientifica. Rendendo i risultati della ricerca più interattivi e accessibili, vogliamo sostenere un ecosistema scientifico più inclusivo e collaborativo.
+                    <br><br>
+                    Ogni applicazione include istruzioni dettagliate e informazioni sul suo utilizzo previsto. Vi invitiamo a esplorarle singolarmente per comprenderne meglio le caratteristiche e le possibili applicazioni.
+                    <br>
+                    Per qualsiasi domanda o richiesta di informazioni aggiuntive, non esitate a contattare l’autore indicato per ciascuna applicazione.
+                    <br><br>
+                    Tutto il codice sorgente di questo sito e delle applicazioni associate è disponibile pubblicamente su <a href="https://github.com/SanCamillo-NeurophysiologyLab/shiny-server">GitHub</a>. 
+                    <br>
+                    Per richieste generali o informazioni tecniche, contattare alessandro.tonin@hsancamillo.it.
+                </span>
+            </div>
         </div>
         <th:block th:each="group: ${templateGroups}">
-            <div class="title-apps" th:text="${group.properties.get('display-name')}"></div>
+            <div class="title-apps lang-en" th:text="${group.properties.get('display-name')}"></div>
+            <div class="title-apps lang-it" th:text="${group.properties.get('display-name_it')}"></div>
             <div class="container" th:id="'apps-' + ${group.id}">
                 <div th:each="app: ${groupedApps.get(group.id)}">
                     <div class="card">
-                        <div class="card-title" th:text="${app.displayName == null} ? ${app.id} : ${app.displayName}"></div>
+                        <div class="card-title lang-en" th:text="${app.displayName == null} ? ${app.id} : ${app.displayName}"></div>
+                        <div class="card-title lang-it" th:text="${@thymeleaf.getTemplateProperty(app.id, 'display-name_it') ?: app.displayName ?: app.id}"></div>
                         <div class="card-logo">
                             <img class="img-responsive" th:if="${appLogos.get(app) != null}"
                                 th:with="logo=${appLogos.get(app)}" th:height="${logo.height}"
                                 th:src="${logo.src}" th:style="${logo.style}" th:width="${logo.width}">
                         </div>
-                        <div class="card-description" th:if="${app.description != null}" th:text="${app.description}"></div>
+                        <div class="card-description lang-en" th:if="${app.description != null}" th:text="${app.description}"></div>
+                        <div class="card-description lang-it" th:if="${@thymeleaf.getTemplateProperty(app.id, 'description_it') != null or app.description != null}" th:text="${@thymeleaf.getTemplateProperty(app.id, 'description_it') ?: app.description}"></div>
                         <div class="card-author" th:if="${@thymeleaf.getTemplateProperty(app.id, 'author')}">
                             <strong>Author: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'author')}"></span> 
                             <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" class="email-icon" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}" title="Contact Author">
@@ -87,7 +115,7 @@
                         </div>
                         <!-- <div class="card-contact" th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}"><strong>Contact: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'contact')}"></span></div> -->
                         <div class="card-doi" th:if="${@thymeleaf.getTemplateProperty(app.id, 'doi')}"><strong>DOI: </strong><a th:href="'https://doi.org/' + ${@thymeleaf.getTemplateProperty(app.id, 'doi')}"><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'doi')}"></span></a></div>
-                        <a th:href="@{/app/}+${app.id}" class="btn">Launch App</a>
+                        <a th:href="@{/app/}+${app.id}" class="btn"><span class="lang-en">Launch App</span><span class="lang-it">Avvia Applicazione</span></a>
                     </div>
                 </div>
             </div>
@@ -115,7 +143,23 @@
             $(window).on('load', function () {
                 window.Shiny.common.init([[${contextPath}]], [[${application_name}]], [[${spInstance}]], [[${appMaxInstances}]], [[${myAppsMode}]], [[${pauseSupported}]]);
                 window.Shiny.common.startIndex();
+                // Try saved language first
+                let lang = localStorage.getItem('language');
+
+                // If not saved, detect browser language
+                if (!lang) {
+                const browserLang = navigator.language || navigator.userLanguage; // e.g. "en-US"
+                lang = browserLang.split('-')[0]; // get "en", "fr", "it", etc.
+                }
+
+                // Default to English if unsupported
+                if (!['en', 'it'].includes(lang)) {
+                lang = 'en';
+                }
+
+                setLanguage(lang);
             });
+
         </script>
     </body>
 </html>

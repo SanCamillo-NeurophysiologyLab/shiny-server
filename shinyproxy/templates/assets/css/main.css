@@ -178,6 +178,11 @@ body {
     text-decoration: none;
     border-radius: 5px;
 }
+
+.btn-sm {
+    font-size: 14px;
+}
+
 .btn:hover {
     color: white;
     background: #2e6da4;
@@ -185,4 +190,13 @@ body {
 
 .btn:focus {
     color: white;
+}
+
+/* Languages */
+.lang-en, .lang-it {
+    display: none;
+}
+
+.visible {
+    display: block;
 }

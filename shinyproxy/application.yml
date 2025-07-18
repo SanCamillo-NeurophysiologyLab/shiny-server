@@ -56,6 +56,7 @@ proxy:
       author: Giorgio Arcara
       contact: giorgio.arcara@hsancamillo.it
       doi: 10.3390/brainsci8070126
+      description_it: Data normativi per MOCA considerando Età, Educazione, CRI e Sesso.
   - id: erp-kw-osc
     display-name: ERP oscillation
     description: A beautiful description.

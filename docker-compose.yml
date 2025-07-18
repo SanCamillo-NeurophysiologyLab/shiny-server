@@ -6,7 +6,6 @@ services:
       - ./shinyproxy/application.yml:/opt/shinyproxy/application.yml:ro
       - ./shinyproxy/users.yml:/opt/shinyproxy/users.yml:ro
       - ./shinyproxy/templates/:/opt/shinyproxy/templates/:ro
-      - ./shinyproxy/assets/:/opt/shinyproxy/assets/:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     group_add:
       - "984"

@@ -139,7 +139,7 @@ body {
 }
 
 .email-icon {
-    vertical-align: middle;
+    vertical-align: middle0,20px;
     margin-left: 4px;
     fill: #555;
 }
@@ -199,4 +199,27 @@ body {
 
 .visible {
     display: block;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin: 10px 20px;
+    padding: 0 20px;
+}
+
+label {
+    white-space: nowrap;
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.no-apps-message {
+    font-size: 18px;
+    font-weight: 600;
+    padding-bottom: 40px;
 }

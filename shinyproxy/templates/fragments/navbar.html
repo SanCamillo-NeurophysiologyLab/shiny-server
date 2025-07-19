@@ -115,12 +115,20 @@
                 });
 
                 function setLanguage(lang) {
-                    const languages = ['en', 'fr', 'it']; // extend as needed
+                    const languages = ['en', 'it']; // extend as needed
                     languages.forEach(l => {
                     document.querySelectorAll(`.lang-${l}`).forEach(el => el.classList.remove('visible'));
                     });
                     document.querySelectorAll(`.lang-${lang}`).forEach(el => el.classList.add('visible'));
                     localStorage.setItem('language', lang); // remember user choice
+                    // Update search placeholder
+                    const searchInput = document.getElementById('searchInput');
+                    if (searchInput) {
+                        const placeholderText = searchInput.dataset[`placeholder${lang.charAt(0).toUpperCase() + lang.slice(1)}`];
+                        if (placeholderText) {
+                        searchInput.placeholder = placeholderText;
+                        }
+                    }
                 }
 
             </script>

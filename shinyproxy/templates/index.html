@@ -27,7 +27,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <link rel="stylesheet" media="screen" th:href="@{${resourcePrefix} + ${bootstrapCss}}"/>
         <link rel="stylesheet" media="screen" th:href="@{${resourcePrefix} + '/css/default.css'}"/>
-        <link rel="stylesheet" media="screen" th:href="@{/assets/css/bootstrap-3.4.1/bootstrap.min.css}"/>
+        <!-- <link rel="stylesheet" media="screen" th:href="@{/assets/css/bootstrap-3.4.1/bootstrap.min.css}"/> -->
         <link rel="stylesheet" media="screen" th:href="@{/assets/css/main.css}"/>
         <!-- <link rel="stylesheet" media="screen" th:href="@{/assets/css/2-col-portfolio.css}"/> -->
         <script th:src="@{${resourcePrefix} + ${jqueryJs}}"></script>
@@ -40,6 +40,7 @@
         <script th:src="@{${resourcePrefix} + '/js/shiny.ui.js' }"></script>
         <script th:src="@{${resourcePrefix} + '/js/shiny.common.js'}"></script>
         <script th:src="@{${resourcePrefix} + '/handlebars/precompiled.js'}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
     </head>
     <body>
         <!-- navigation bar -->
@@ -89,12 +90,48 @@
                 </span>
             </div>
         </div>
+        <!-- Search bar -->
+        <div class="form-group d-flex align-items-center mb-3">
+            <!-- <span class="lang-en"> -->
+                <label for="searchInput" class="lang-en mb-0 mr-2 font-weight-bold">Search apps:</label>
+                <label for="searchInput" class="lang-it mb-0 mr-2 font-weight-bold">Cerca app:</label>
+                <input type="text"
+                    id="searchInput"
+                    class="form-control w-auto"
+                    data-placeholder-en="Search apps..."
+                    data-placeholder-it="Scrivi per cercare..."
+                    placeholder="Type to search..."
+                    oninput="debouncedSearch()" />
+            <!-- </span> -->
+            <!-- <span class="lang-it">
+                <label for="searchInput-it" class="mb-0 mr-2 font-weight-bold">Cerca app:</label>
+                <input type="text"
+                   id="searchInput-it"
+                   class="form-control w-auto"
+                   placeholder="Scrivi per cercare..."
+                   oninput="debouncedSearch()" />
+            </span> -->
+        </div>
+          <!-- All the apps -->
         <th:block th:each="group: ${templateGroups}">
             <div class="title-apps lang-en" th:text="${group.properties.get('display-name')}"></div>
             <div class="title-apps lang-it" th:text="${group.properties.get('display-name_it')}"></div>
-            <div class="container" th:id="'apps-' + ${group.id}">
+            <div class="container group-apps" th:id="'apps-' + ${group.id}">
+                <div class="no-apps-message lang-en hidden">
+                    <p>No apps available in this group.</p>
+                </div>
+                <div class="no-apps-message lang-it hidden">
+                    <p>Nessuna applicazione trovata</p>
+                </div>
                 <div th:each="app: ${groupedApps.get(group.id)}">
-                    <div class="card">
+                    <div class="card"
+                        th:data-id="${app.id}"
+                        th:data-title="${app.displayName ?: ''}" 
+                        th:data-title_it="${@thymeleaf.getTemplateProperty(app.id, 'display-name_it') ?: ''}" 
+                        th:data-description="${app.description ?: ''}" 
+                        th:data-description_it="${@thymeleaf.getTemplateProperty(app.id, 'description_it') ?: ''}" 
+                        th:data-author="${@thymeleaf.getTemplateProperty(app.id, 'author') ?: ''}" 
+                        th:data-keywords="${@thymeleaf.getTemplateProperty(app.id, 'keywords') ?: ''}" >
                         <div class="card-title lang-en" th:text="${app.displayName == null} ? ${app.id} : ${app.displayName}"></div>
                         <div class="card-title lang-it" th:text="${@thymeleaf.getTemplateProperty(app.id, 'display-name_it') ?: app.displayName ?: app.id}"></div>
                         <div class="card-logo">
@@ -160,6 +197,76 @@
                 setLanguage(lang);
             });
 
+            // Debounce setup
+            let debounceTimer;
+
+            function debouncedSearch() {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(runFuzzySearch, 300); // 300ms delay
+            }
+
+            // Initialize Fuse.js
+            const appCards = Array.from(document.querySelectorAll('.card'));
+
+            // Create data array from DOM
+            const apps = appCards.map(card => ({
+            element: card,
+            title: card.dataset.title || '',
+            title_it: card.dataset.title_it || '',
+            description: card.dataset.description || '',
+            description_it: card.dataset.description_it || '',
+            author: card.dataset.author || '',
+            keywords: card.dataset.keywords || '',
+            }));
+
+            const fuse = new Fuse(apps, {
+            keys: ['title', 'title_it', 'description', 'description_it', 'author', 'keywords'],
+            threshold: 0.3, // 0 = exact match, 1 = match anything
+            ignoreLocation: true,
+            });
+
+            function runFuzzySearch() {
+                let lang = localStorage.getItem('language');
+                // let input = "";
+                const input = document.getElementById('searchInput').value.trim();
+                // if (lang == "it") {
+                //     input = document.getElementById('searchInput-it').value.trim();
+                // } else {
+                //     input = document.getElementById('searchInput').value.trim();
+                // }
+
+                // Show all if input is empty
+                if (input === '') {
+                    appCards.forEach(card => card.classList.remove('hidden'));
+                } else {
+                    // Perform fuzzy search
+                    const results = fuse.search(input);
+
+                    // Hide all cards
+                    appCards.forEach(card => card.classList.add('hidden'));
+
+                    // Show matched cards
+                    results.forEach(result => {
+                        result.item.element.classList.remove('hidden');
+                    });
+                }
+
+                // Check empty groups
+
+                document.querySelectorAll('.group-apps').forEach(group => {
+                    const visibleCards = Array.from(group.querySelectorAll('.card'))
+                        .filter(card => !card.classList.contains('hidden'));
+
+                    console.log(visibleCards)
+
+                    const noAppsMessage = group.querySelectorAll('.no-apps-message');
+                    if (visibleCards.length === 0) {
+                        noAppsMessage.forEach(message => message.classList.remove('hidden'));
+                    } else {
+                        noAppsMessage.forEach(message => message.classList.add('hidden'));
+                    }
+                });
+            }
         </script>
     </body>
 </html>

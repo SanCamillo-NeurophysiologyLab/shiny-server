@@ -44,6 +44,7 @@ proxy:
     template-properties:
       author: ShinyProxy
       doi: 123/456
+      keywords: test; tutorial
   - id: MOCAv3
     display-name: MOCA v3
     description: Normative data for MOCA considering Age, Education, CRI, and Sex.
@@ -68,6 +69,7 @@ proxy:
     template-properties:
       author: Sara Lago
       contact: sara.lago@hsancamillo.it
+      display-name_it: Oscillazioni ERP
   - id: gamm
     display-name: GAMM age education aperiodic
     description: Another beautiful description.

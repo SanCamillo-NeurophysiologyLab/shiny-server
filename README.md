@@ -16,7 +16,27 @@ All files used directly by ShinyProxy server (except for the docker compose star
 
 All the server's settings are defined in `application.yml`.
 
-A full list of the available configurations is defined in the [ShinyProxy documentation](https://www.shinyproxy.io/documentation/configuration/)
+A full list of the available configurations is defined in the [ShinyProxy documentation](https://www.shinyproxy.io/documentation/configuration/).
+
+Each app includes some attributes which define specific details of the app. The syntax of each app in the `application.yml` is the following:
+
+```
+id: [Short ID for the app. Must be unique among all the apps]
+display-name: [English name of the app]
+description: [English description of the app]
+docker-cmd: ["R", "-e", "shiny::runApp('/root/idOfTheApp')"] (Change the id of the app)
+container-image: [The name of the docker container of the app]
+container-network: shinyproxy-nw (as defined in the docker-compose file)
+logo-url: /assets/img/apps/AppLogo.png (A screenshot of the app)
+template-group: [clinical or scientific]
+template-properties:
+    author: [Name of the autor] (optional)
+    contact: [Email contact of the author] (optional)
+    doi: [DOI of the article] (optional)
+    display-name_it: [Italian title of the app] (optional)
+    description_it: [Italian description of the app] (optional)
+    keywords: [Keywords list separated by ;. Used for search purposes only.]
+```
 
 Folders `assets` and `templates` contains useful files for rendering the website.
 
@@ -36,7 +56,7 @@ The drawback of this logic is that if an app is not optimized and is resource de
 
 ### How to contribute
 
-The branch `main` of the repository is protected because it is synced with the website, which is automatically updated every time the branch main receive a new commit.
+The branch `main` of the repository is protected because it is synced with the website, which is automatically updated every time the branch main receive a new commit. (Currently the automation is not working.)
 
 In order to contribute work on a separate branch and send a pull request to merge the new app in `main`.
 
@@ -65,6 +85,14 @@ However, these are the steps required to implement a new app:
     container-image: openanalytics/shinyproxy-newapp
     container-network: shinyproxy-nw
     logo-url: /assets/img/apps/name_of_the_screenshot.png
+    template-group: [clinical or scientific]
+    template-properties:
+        author: Name of the author (optional)
+        contact: author@email.com (optional)
+        doi: 10.123/thedoiofthearticle (optional)
+        display-name_it: Nuova applicazione Shiny (optional)
+        description_it: Una bellissima descrizione anche in italiano (optional)
+        keywords: keyword1; keyword2; keyword3
     ```
 
 ### Dockerfile

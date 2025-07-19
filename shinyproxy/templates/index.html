@@ -257,8 +257,6 @@
                     const visibleCards = Array.from(group.querySelectorAll('.card'))
                         .filter(card => !card.classList.contains('hidden'));
 
-                    console.log(visibleCards)
-
                     const noAppsMessage = group.querySelectorAll('.no-apps-message');
                     if (visibleCards.length === 0) {
                         noAppsMessage.forEach(message => message.classList.remove('hidden'));

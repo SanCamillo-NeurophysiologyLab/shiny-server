@@ -228,11 +228,12 @@
             description: card.dataset.description || '',
             description_it: card.dataset.description_it || '',
             author: card.dataset.author || '',
+            article: card.dataset.article || '',
             keywords: card.dataset.keywords || '',
             }));
 
             const fuse = new Fuse(apps, {
-            keys: ['title', 'title_it', 'description', 'description_it', 'author', 'keywords'],
+            keys: ['title', 'title_it', 'description', 'description_it', 'author', 'article', 'keywords'],
             threshold: 0.3, // 0 = exact match, 1 = match anything
             ignoreLocation: true,
             });

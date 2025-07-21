@@ -130,7 +130,8 @@
                         th:data-title_it="${@thymeleaf.getTemplateProperty(app.id, 'display-name_it') ?: ''}" 
                         th:data-description="${app.description ?: ''}" 
                         th:data-description_it="${@thymeleaf.getTemplateProperty(app.id, 'description_it') ?: ''}" 
-                        th:data-author="${@thymeleaf.getTemplateProperty(app.id, 'author') ?: ''}" 
+                        th:data-author="${@thymeleaf.getTemplateProperty(app.id, 'author') ?: ''}"
+                        th:data-article="${@thymeleaf.getTemplateProperty(app.id, 'article') ?: ''}" 
                         th:data-keywords="${@thymeleaf.getTemplateProperty(app.id, 'keywords') ?: ''}" >
                         <div class="card-title lang-en" th:text="${app.displayName == null} ? ${app.id} : ${app.displayName}"></div>
                         <div class="card-title lang-it" th:text="${@thymeleaf.getTemplateProperty(app.id, 'display-name_it') ?: app.displayName ?: app.id}"></div>
@@ -141,7 +142,7 @@
                         </div>
                         <div class="card-description lang-en" th:if="${app.description != null}" th:text="${app.description}"></div>
                         <div class="card-description lang-it" th:if="${@thymeleaf.getTemplateProperty(app.id, 'description_it') != null or app.description != null}" th:text="${@thymeleaf.getTemplateProperty(app.id, 'description_it') ?: app.description}"></div>
-                        <div class="card-author" th:if="${@thymeleaf.getTemplateProperty(app.id, 'author')}">
+                        <div class="card-author lang-en" th:if="${@thymeleaf.getTemplateProperty(app.id, 'author')}">
                             <strong>Author: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'author')}"></span> 
                             <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" class="email-icon" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}" title="Contact Author">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -150,7 +151,18 @@
                                 </svg>
                             </a>
                         </div>
+                        <div class="card-author lang-it" th:if="${@thymeleaf.getTemplateProperty(app.id, 'author')}">
+                            <strong>Autore: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'author')}"></span> 
+                            <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" class="email-icon" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}" title="Contact Author">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                    viewBox="0 0 16 16">
+                                <path d="M0 4a2 2 0 012-2h12a2 2 0 012 2v.217l-8 4.8-8-4.8V4zm0 1.383v6.634l5.803-3.482L0 5.383zM6.761 8.83l-6.52 3.913A2 2 0 002 14h12a2 2 0 001.76-1.257l-6.52-3.913L8 9.583l-1.239-.753zM16 5.383l-5.803 3.152L16 12.017V5.383z"/>
+                                </svg>
+                            </a>
+                        </div>
                         <!-- <div class="card-contact" th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}"><strong>Contact: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'contact')}"></span></div> -->
+                        <div class="card-article lang-en" th:if="${@thymeleaf.getTemplateProperty(app.id, 'article')}"><strong>Article: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'article')}"></span></div>
+                        <div class="card-article lang-it" th:if="${@thymeleaf.getTemplateProperty(app.id, 'article')}"><strong>Articolo: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'article')}"></span></div>
                         <div class="card-doi" th:if="${@thymeleaf.getTemplateProperty(app.id, 'doi')}"><strong>DOI: </strong><a th:href="'https://doi.org/' + ${@thymeleaf.getTemplateProperty(app.id, 'doi')}"><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'doi')}"></span></a></div>
                         <a th:href="@{/app/}+${app.id}" class="btn"><span class="lang-en">Launch App</span><span class="lang-it">Avvia Applicazione</span></a>
                     </div>

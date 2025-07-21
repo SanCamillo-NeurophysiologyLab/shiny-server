@@ -89,6 +89,7 @@ However, these are the steps required to implement a new app:
     template-properties:
         author: Name of the author (optional)
         contact: author@email.com (optional)
+        article: Title of the article of the app (optional)
         doi: 10.123/thedoiofthearticle (optional)
         display-name_it: Nuova applicazione Shiny (optional)
         description_it: Una bellissima descrizione anche in italiano (optional)

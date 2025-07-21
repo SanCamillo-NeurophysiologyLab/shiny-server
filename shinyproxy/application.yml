@@ -56,7 +56,8 @@ proxy:
     template-properties:
       author: Giorgio Arcara
       contact: giorgio.arcara@hsancamillo.it
-      doi: 10.3390/brainsci8070126
+      article: "Cognitive reserve estimated with a life experience questionnaire outperforms education in predicting performance on MoCA: Italian normative data."
+      doi: 10.1007/s12144-022-03062-6
       description_it: Data normativi per MOCA considerando Età, Educazione, CRI e Sesso.
   - id: erp-kw-osc
     display-name: ERP oscillation

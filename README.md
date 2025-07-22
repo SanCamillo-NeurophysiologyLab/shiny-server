@@ -157,7 +157,7 @@ First you have to create a docker network
 docker network create shinyproxy-nw
 ```
 
-Then you need to create the images of all the apps and you need to change the Docker GUID in `docker-compose.yml`. To do so there is a script that does everything for you.
+Then you need to create the images of all the apps and you need to change the Docker GUID in `default.env`. To do so there is a script that does everything for you.
 
 ```bash
 chmod +x first_run_setup.sh

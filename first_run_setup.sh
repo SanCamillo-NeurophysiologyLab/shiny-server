@@ -2,8 +2,8 @@
 
 set -e
 
-# Step 1: Update group_add in docker-compose.yml
-echo "Updating docker-compose.yml with docker group ID..."
+# Step 1: Update group_add in default.env
+echo "Updating default.env with docker group ID..."
 
 DOCKER_GID=$(getent group docker | cut -d: -f3)
 
@@ -12,10 +12,18 @@ if [[ -z "$DOCKER_GID" ]]; then
   exit 1
 fi
 
-# Replace the line that starts with '  - "' and has a number with the correct GID
-sed -i -E "s/(group_add:[[:space:]]*\n[[:space:]]*- )[\"']?[0-9]+[\"']?/\1\"$DOCKER_GID\"/" docker-compose.yml
-
-echo "docker-compose.yml updated successfully with GID $DOCKER_GID."
+if [ ! -f default.env ]; then
+  echo "default.env not found. Creating it..."
+  echo "DOCKER_GID=$DOCKER_GID" > default.env
+else
+  # If DOCKER_GID is in the file, replace it; else, append it
+  if grep -q "^DOCKER_GID=" default.env; then
+    sed -i -E "s/^DOCKER_GID=.*/DOCKER_GID=$DOCKER_GID/" default.env
+  else
+    echo "DOCKER_GID=$DOCKER_GID" >> default.env
+  fi
+  echo "default.env updated successfully with GID $DOCKER_GID."
+fi
 
 # Step 2: Build all app images
 echo "Building all app Docker images..."

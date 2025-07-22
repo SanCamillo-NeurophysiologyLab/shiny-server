@@ -30,6 +30,7 @@
         <!-- <link rel="stylesheet" media="screen" th:href="@{/assets/css/bootstrap-3.4.1/bootstrap.min.css}"/> -->
         <link rel="stylesheet" media="screen" th:href="@{/assets/css/main.css}"/>
         <!-- <link rel="stylesheet" media="screen" th:href="@{/assets/css/2-col-portfolio.css}"/> -->
+        <link rel="stylesheet" th:href="@{/assets/css/font-awesome-4.7.0/css/font-awesome.min.css}">
         <script th:src="@{${resourcePrefix} + ${jqueryJs}}"></script>
         <script th:src="@{${resourcePrefix} + ${bootstrapJs}}"></script>
         <script th:src="@{${resourcePrefix} + ${handlebars}}"></script>
@@ -48,25 +49,25 @@
 
         <div class="description">
             <div class="description-subtitle">
-                <span class="lang-en">IRCCS San Camillo Hospital - Interactive Applications for Research and Clinical Practice</span>
-                <span class="lang-it">Ospedale San Camillo IRCCS - Interactive Applications for Research and Clinical Practice</span>
+                <span class="lang-en">IRCCS San Camillo Hospital<br>Interactive Applications for Research and Clinical Practice</span>
+                <span class="lang-it">Ospedale San Camillo IRCCS<br>Interactive Applications for Research and Clinical Practice</span>
             </div>
             <div class="description-text">
                 <span class="lang-en">
                     Welcome to the IRCCS San Camillo Hospital App Collection. <br><br>
                     On this page, you will find a curated selection of applications developed at IRCCS San Camillo Hospital. These tools have been created to serve two main purposes:
                     <br><br>
-                    <a href="#apps-clinical"><strong>Clinical Support</strong></a><br>
+                    <a href="#apps-clinical"><strong>Clinical Support</strong> <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i></a><br>
                     Some apps function as practical tools to assist clinicians in their daily work—such as classifying patient performance against normative datasets or streamlining specific clinical assessments.
                     <br><br>
-                    <a href="#apps-scientific"><strong>Scientific Communication</strong></a><br>
+                    <a href="#apps-scientific"><strong>Scientific Communication</strong> <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i></a><br>
                     Other apps are designed to provide interactive visualizations of results published in scientific articles, enhancing the clarity and accessibility of complex data. This approach aligns with the principles of Open Science, promoting transparency, reproducibility, and wider dissemination of scientific knowledge. By making research outputs more interactive and publicly accessible, we aim to support a more inclusive and collaborative scientific ecosystem.
                     <br><br>
                     Each application includes detailed instructions and information about its intended use. We encourage you to explore them individually to better understand their features and potential applications.
                     <br>
                     If you have any questions or need further information, please do not hesitate to contact the respective author listed for each app.
                     <br><br>
-                    All the source code for this website and the associated applications is openly available on <a href="https://github.com/SanCamillo-NeurophysiologyLab/shiny-server">GitHub</a>. 
+                    All the source code for this website and the associated applications is openly available on <a href="https://github.com/SanCamillo-NeurophysiologyLab/shiny-server">GitHub&nbsp;<i class="fa fa-github" aria-hidden="true"></i></a>. 
                     <br>
                     For general inquiries or technical information, please contact alessandro.tonin@hsancamillo.it.
                 </span>
@@ -74,17 +75,17 @@
                     Benvenuti nella raccolta di applicazioni dell'IRCCS Ospedale San Camillo. <br><br>
                     In questa pagina troverete una selezione curata di applicazioni sviluppate presso l'IRCCS Ospedale San Camillo. Questi strumenti sono stati creati per rispondere a due principali esigenze:
                     <br><br>
-                    <a href="#apps-clinical"><strong>Supporto Clinico</strong></a><br>
+                    <a href="#apps-clinical"><strong>Supporto Clinico</strong> <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i></a><br>
                     Alcune applicazioni sono strumenti pratici pensati per assistere i clinici nel lavoro quotidiano, ad esempio nella classificazione delle prestazioni dei pazienti rispetto a dati normativi o nella semplificazione di specifiche valutazioni cliniche.
                     <br><br>
-                    <a href="#apps-scientific"><strong>Comunicazione Scientifica</strong></a><br>
+                    <a href="#apps-scientific"><strong>Comunicazione Scientifica</strong> <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i></a><br>
                     Altre applicazioni offrono visualizzazioni interattive dei risultati pubblicati in articoli scientifici, migliorando la chiarezza e l’accessibilità dei dati complessi. Questo approccio è in linea con i principi della Scienza Aperta, promuovendo trasparenza, riproducibilità e una più ampia diffusione della conoscenza scientifica. Rendendo i risultati della ricerca più interattivi e accessibili, vogliamo sostenere un ecosistema scientifico più inclusivo e collaborativo.
                     <br><br>
                     Ogni applicazione include istruzioni dettagliate e informazioni sul suo utilizzo previsto. Vi invitiamo a esplorarle singolarmente per comprenderne meglio le caratteristiche e le possibili applicazioni.
                     <br>
                     Per qualsiasi domanda o richiesta di informazioni aggiuntive, non esitate a contattare l’autore indicato per ciascuna applicazione.
                     <br><br>
-                    Tutto il codice sorgente di questo sito e delle applicazioni associate è disponibile pubblicamente su <a href="https://github.com/SanCamillo-NeurophysiologyLab/shiny-server">GitHub</a>. 
+                    Tutto il codice sorgente di questo sito e delle applicazioni associate è disponibile pubblicamente su <a href="https://github.com/SanCamillo-NeurophysiologyLab/shiny-server">GitHub&nbsp;<i class="fa fa-github" aria-hidden="true"></i></a>. 
                     <br>
                     Per richieste generali o informazioni tecniche, contattare alessandro.tonin@hsancamillo.it.
                 </span>
@@ -143,22 +144,22 @@
                         <div class="card-description lang-en" th:if="${app.description != null}" th:text="${app.description}"></div>
                         <div class="card-description lang-it" th:if="${@thymeleaf.getTemplateProperty(app.id, 'description_it') != null or app.description != null}" th:text="${@thymeleaf.getTemplateProperty(app.id, 'description_it') ?: app.description}"></div>
                         <div class="card-author lang-en" th:if="${@thymeleaf.getTemplateProperty(app.id, 'author')}">
-                            <strong>Author: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'author')}"></span> 
-                            <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" class="email-icon" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}" title="Contact Author">
+                            <strong>Author: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'author')}"></span> <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}"><i class="fa fa-envelope email-icon" aria-hidden="true"></i></a>
+                            <!-- <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" class="email-icon" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}" title="Contact Author">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     viewBox="0 0 16 16">
                                 <path d="M0 4a2 2 0 012-2h12a2 2 0 012 2v.217l-8 4.8-8-4.8V4zm0 1.383v6.634l5.803-3.482L0 5.383zM6.761 8.83l-6.52 3.913A2 2 0 002 14h12a2 2 0 001.76-1.257l-6.52-3.913L8 9.583l-1.239-.753zM16 5.383l-5.803 3.152L16 12.017V5.383z"/>
                                 </svg>
-                            </a>
+                            </a> -->
                         </div>
                         <div class="card-author lang-it" th:if="${@thymeleaf.getTemplateProperty(app.id, 'author')}">
-                            <strong>Autore: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'author')}"></span> 
-                            <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" class="email-icon" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}" title="Contact Author">
+                            <strong>Autore: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'author')}"></span> <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}"><i class="fa fa-envelope email-icon" aria-hidden="true"></i></a>
+                            <!-- <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" class="email-icon" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}" title="Contact Author">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     viewBox="0 0 16 16">
                                 <path d="M0 4a2 2 0 012-2h12a2 2 0 012 2v.217l-8 4.8-8-4.8V4zm0 1.383v6.634l5.803-3.482L0 5.383zM6.761 8.83l-6.52 3.913A2 2 0 002 14h12a2 2 0 001.76-1.257l-6.52-3.913L8 9.583l-1.239-.753zM16 5.383l-5.803 3.152L16 12.017V5.383z"/>
                                 </svg>
-                            </a>
+                            </a> -->
                         </div>
                         <!-- <div class="card-contact" th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}"><strong>Contact: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'contact')}"></span></div> -->
                         <div class="card-article lang-en" th:if="${@thymeleaf.getTemplateProperty(app.id, 'article')}"><strong>Article: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'article')}"></span></div>

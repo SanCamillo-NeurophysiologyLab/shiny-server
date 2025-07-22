@@ -50,4 +50,4 @@ rsconnect/
 
 # Users file
 users.yml
-default.env
+.env

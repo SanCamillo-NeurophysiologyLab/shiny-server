@@ -11,8 +11,6 @@ services:
       - ${DOCKER_GID}
     ports:
       - 8080:8080
-    env_file:
-      - default.env
     networks:
       - shinyproxy-nw
 networks:

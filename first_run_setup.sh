@@ -12,17 +12,17 @@ if [[ -z "$DOCKER_GID" ]]; then
   exit 1
 fi
 
-if [ ! -f default.env ]; then
-  echo "default.env not found. Creating it..."
-  echo "DOCKER_GID=$DOCKER_GID" > default.env
+if [ ! -f .env ]; then
+  echo ".env not found. Creating it..."
+  echo "DOCKER_GID=$DOCKER_GID" > .env
 else
   # If DOCKER_GID is in the file, replace it; else, append it
-  if grep -q "^DOCKER_GID=" default.env; then
-    sed -i -E "s/^DOCKER_GID=.*/DOCKER_GID=$DOCKER_GID/" default.env
+  if grep -q "^DOCKER_GID=" .env; then
+    sed -i -E "s/^DOCKER_GID=.*/DOCKER_GID=$DOCKER_GID/" .env
   else
-    echo "DOCKER_GID=$DOCKER_GID" >> default.env
+    echo "DOCKER_GID=$DOCKER_GID" >> .env
   fi
-  echo "default.env updated successfully with GID $DOCKER_GID."
+  echo ".env updated successfully with GID $DOCKER_GID."
 fi
 
 # Step 2: Build all app images

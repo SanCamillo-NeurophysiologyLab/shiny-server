@@ -60,8 +60,8 @@ proxy:
       doi: 10.1007/s12144-022-03062-6
       description_it: Data normativi per MOCA considerando Età, Educazione, CRI e Sesso.
   - id: erp-kw-osc
-    display-name: ERP oscillation
-    description: A beautiful description.
+    display-name: Mapping ERP amplitudes on form-to-meaning computations
+    description: Visualizing the interplay between Orthography- and Phonology-Semantics Consistency (OSC and PSC) and ERP amplitude during a lexical decision task.
     docker-cmd: ["R", "-e", "shiny::runApp('/root/erp-kw-osc')"]
     container-image: shinyapp-erpkwosc
     container-network: shinyproxy-nw
@@ -70,10 +70,13 @@ proxy:
     template-properties:
       author: Sara Lago
       contact: sara.lago@hsancamillo.it
-      display-name_it: Oscillazioni ERP
+      article: "Very early and late form-to-meaning computations during visual word recognition as revealed by electrophysiology"
+      doi: 10.1016/j.cortex.2022.07.016
+      display-name_it: ERPs e mappaggio grafema-fonema
+      description_it: Visualizzazione delle interazioni tra consistenza ortografico- e fonemico-semantica e ampiezza ERP durante un compito di decisione lessicale
   - id: gamm
-    display-name: GAMM age education aperiodic
-    description: Another beautiful description.
+    display-name: Education, EEG Aperiodic Components and Cognitive Aging
+    description: Interactive visualization of non-linear relationships between aperiodic EEG components, age and education
     docker-cmd: ["R", "-e", "shiny::runApp('/root/gamm')"]
     container-image: shinyapp-gamm
     container-network: shinyproxy-nw
@@ -82,6 +85,8 @@ proxy:
     template-properties:
       author: Sara Lago
       contact: sara.lago@hsancamillo.it
+      display_name_it: Scolarità, componenti aperiodiche dello spettro EEG e invecchiamento cognitivo
+      description_it: Visualizzazione interattiva delle relazioni non lineari tra scolarità, componenti aperiodiche dello spettro EEG e invecchiamento cognitivo
 
 
 logging:

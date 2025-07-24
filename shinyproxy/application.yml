@@ -85,7 +85,7 @@ proxy:
     template-properties:
       author: Sara Lago
       contact: sara.lago@hsancamillo.it
-      display_name_it: Scolarità, componenti aperiodiche dello spettro EEG e invecchiamento cognitivo
+      display-name_it: Scolarità, componenti aperiodiche dello spettro EEG e invecchiamento cognitivo
       description_it: Visualizzazione interattiva delle relazioni non lineari tra scolarità, componenti aperiodiche dello spettro EEG e invecchiamento cognitivo
 
 

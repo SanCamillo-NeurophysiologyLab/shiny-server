@@ -7,6 +7,7 @@ proxy:
   ##########################
   title: San Camillo Apps
   logo-url: file:///opt/shinyproxy/templates/assets/img/logo_sc/sancamillo_logo_white.png
+  favicon-path: /opt/shinyproxy/templates/assets/img/favicon/favicon.ico
   port: 8080
   template-path: ./templates/
   authentication: none

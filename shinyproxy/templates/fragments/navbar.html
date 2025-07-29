@@ -10,7 +10,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top navbar-height">
       <div class="container-fluid">
         <div class="navbar-header">
-          <img class="navbar-brand navbar-brand-logo" th:src="${logo}" />
+          <img class="navbar-brand navbar-brand-logo" th:src="${logo}" alt="San Camillo Logo"/>
           <a class="navbar-brand navbar-brand-title" th:href="@{/}" th:text="${title}"></a>
         </div>
         <div class="navbar-menu">
@@ -195,6 +195,7 @@
         languages.forEach(l => {
           document.querySelectorAll(`.lang-${l}`).forEach(el => el.classList.remove('visible'));
         });
+        document.documentElement.lang = lang;
         document.querySelectorAll(`.lang-${lang}`).forEach(el => el.classList.add('visible'));
         localStorage.setItem('language', lang); // remember user choice
         // Update search placeholder

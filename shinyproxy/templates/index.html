@@ -21,16 +21,20 @@
 
 -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-    <head lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
         <title th:text="${title}"></title>
+
+        <!-- META -->
+        <meta name="description" content="App collection from IRCCS San Camillo Hospital. Apps can be useful for both researchers and clinicians.">
+        <meta name="keywords" content="Shiny, R, Neuroscience, Research, Clinical">
+        <meta name="author" content="IRCCS San Camillo">
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <link rel="stylesheet" media="screen" th:href="@{${resourcePrefix} + ${bootstrapCss}}"/>
-        <link rel="stylesheet" media="screen" th:href="@{${resourcePrefix} + '/css/default.css'}"/>
         <!-- <link rel="stylesheet" media="screen" th:href="@{/assets/css/bootstrap-3.4.1/bootstrap.min.css}"/> -->
         <link rel="stylesheet" media="screen" th:href="@{/assets/css/main.css}"/>
-        <!-- <link rel="stylesheet" media="screen" th:href="@{/assets/css/2-col-portfolio.css}"/> -->
         <link rel="stylesheet" th:href="@{/assets/css/font-awesome-4.7.0/css/font-awesome.min.css}">
         <script th:src="@{${resourcePrefix} + ${jqueryJs}}"></script>
         <script th:src="@{${resourcePrefix} + ${bootstrapJs}}"></script>
@@ -42,7 +46,7 @@
         <script th:src="@{${resourcePrefix} + '/js/shiny.ui.js' }"></script>
         <script th:src="@{${resourcePrefix} + '/js/shiny.common.js'}"></script>
         <script th:src="@{${resourcePrefix} + '/handlebars/precompiled.js'}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+        <script th:src="@{/assets/js/fuse.js}"></script>
     </head>
     <body>
         <!-- navigation bar -->
@@ -137,15 +141,22 @@
                         th:data-keywords="${@thymeleaf.getTemplateProperty(app.id, 'keywords') ?: ''}" >
                         <div class="card-title lang-en" th:text="${app.displayName == null} ? ${app.id} : ${app.displayName}"></div>
                         <div class="card-title lang-it" th:text="${@thymeleaf.getTemplateProperty(app.id, 'display-name_it') ?: app.displayName ?: app.id}"></div>
-                        <div class="card-logo">
+                        <div class="card-logo lang-en">
                             <img class="img-responsive" th:if="${appLogos.get(app) != null}"
+                                alt="Screenshot of the app"
+                                th:with="logo=${appLogos.get(app)}" th:height="${logo.height}"
+                                th:src="${logo.src}" th:style="${logo.style}" th:width="${logo.width}">
+                        </div>
+                        <div class="card-logo lang-it">
+                            <img class="img-responsive" th:if="${appLogos.get(app) != null}"
+                                alt="Immagine dell'applicazione"
                                 th:with="logo=${appLogos.get(app)}" th:height="${logo.height}"
                                 th:src="${logo.src}" th:style="${logo.style}" th:width="${logo.width}">
                         </div>
                         <div class="card-description lang-en" th:if="${app.description != null}" th:text="${app.description}"></div>
                         <div class="card-description lang-it" th:if="${@thymeleaf.getTemplateProperty(app.id, 'description_it') != null or app.description != null}" th:text="${@thymeleaf.getTemplateProperty(app.id, 'description_it') ?: app.description}"></div>
                         <div class="card-author lang-en" th:if="${@thymeleaf.getTemplateProperty(app.id, 'author')}">
-                            <strong>Author: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'author')}"></span> <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}"><i class="fa fa-envelope email-icon" aria-hidden="true"></i></a>
+                            <strong>Author: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'author')}"></span> <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}" th:attr="aria-label=|Send email to ${@thymeleaf.getTemplateProperty(app.id, 'author')}|"><i class="fa fa-envelope email-icon" aria-hidden="true"></i></a>
                             <!-- <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" class="email-icon" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}" title="Contact Author">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     viewBox="0 0 16 16">
@@ -154,7 +165,7 @@
                             </a> -->
                         </div>
                         <div class="card-author lang-it" th:if="${@thymeleaf.getTemplateProperty(app.id, 'author')}">
-                            <strong>Autore: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'author')}"></span> <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}"><i class="fa fa-envelope email-icon" aria-hidden="true"></i></a>
+                            <strong>Autore: </strong><span th:text="${@thymeleaf.getTemplateProperty(app.id, 'author')}"></span> <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}" th:attr="aria-label=|Invia email a ${@thymeleaf.getTemplateProperty(app.id, 'author')}|"><i class="fa fa-envelope email-icon" aria-hidden="true"></i></a>
                             <!-- <a th:if="${@thymeleaf.getTemplateProperty(app.id, 'contact')}" class="email-icon" th:href="'mailto:'+${@thymeleaf.getTemplateProperty(app.id, 'contact')}" title="Contact Author">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                     viewBox="0 0 16 16">
